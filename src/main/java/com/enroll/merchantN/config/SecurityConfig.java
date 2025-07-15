@@ -27,7 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/swagger-ui/**", "/api-docs/**", "/api/V1/test/**").permitAll()
+                        .requestMatchers("/swagger-ui/**","/merchant/**",  "/api-docs/**", "/api/V1/test/**").permitAll()
                         .anyRequest().authenticated() // Secure all other requests
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
