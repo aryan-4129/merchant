@@ -1,6 +1,5 @@
 package com.enroll.merchantN.controller;
 
-import com.enroll.merchantN.dto.FileRequest;
 import com.enroll.merchantN.helper.ValidateFile;
 import com.enroll.merchantN.service.ServiceImpl;
 import org.json.JSONObject;
@@ -8,65 +7,52 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.http.MediaType;
+import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class ControllerTest {
 
-   private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-   @Mock
-   private ValidateFile extract;
+    @Mock
+    private ValidateFile extract;
 
-   @Mock
-   private ServiceImpl service;
+    @Mock
+    private ServiceImpl serviceImpl;
 
-   @InjectMocks
-   private Controller controller;
+    @InjectMocks
+    private Controller controller;
 
-   @BeforeEach
-   void setUp() {
-       mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-   }
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
 
-   @Test
-   void testAddFile() throws Exception {
-       // Arrange: Prepare mock behavior for service.addFile()
-       FileRequest fileRequest = new FileRequest();  // Populate the fileRequest if necessary
-       fileRequest.setPath("somePath");
-       fileRequest.setStatus("someStatus");
+    @Test
+    void testValidateFile() throws Exception {
+        // Given
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test.csv", "text/csv", "name,email\njohn,john@example.com".getBytes());
 
-       // Mock the service response
-       JSONObject mockResponse = new JSONObject();
-       mockResponse.put("status", "inProcess");
-       when(service.addFile(fileRequest)).thenReturn(mockResponse);
+        JSONObject mockResponse = new JSONObject();
+        mockResponse.put("status", "inProcess");
 
-       // Act & Assert: Perform the POST request and assert status and response
-       mockMvc.perform(post("/saveFile")
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content("{\"path\":\"somePath\",\"status\":\"someStatus\"}"))  // Sample JSON input
-               .andExpect(status().isOk())  // Assert that the status is OK (200)
-               .andExpect(content().json(mockResponse.toString()));  // Assert that the response matches the mock response
-   }
+        when(serviceImpl.validateAndSaveCsv(any(), anyString())).thenReturn(mockResponse);
 
-   @Test
-   void testAddFileWithNullRequest() throws Exception {
-       // Arrange: Mock behavior when the service returns a null response (e.g., status "failed")
-       FileRequest fileRequest = null;
-
-       when(service.addFile(fileRequest)).thenReturn("{\"status\":\"failed\"}");
-
-       // Act & Assert: Perform the POST request with null input and assert failure response
-       mockMvc.perform(post("/saveFile")
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content("{}"))  // Empty JSON for null fileRequest
-               .andExpect(status().isOk())  // Assert that the status is OK (200)
-               .andExpect(content().json("{\"status\":\"failed\"}"));  // Assert that the response is failed
-   }
+        // When & Then
+        mockMvc.perform(multipart("/merchant/validateFile")
+                        .file(file)
+                        .param("userId", "123"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(mockResponse.toString()));
+    }
 }
