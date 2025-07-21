@@ -49,10 +49,11 @@ class ControllerTest {
         when(serviceImpl.validateAndSaveCsv(any(), anyString())).thenReturn(mockResponse);
 
         // When & Then
-        mockMvc.perform(multipart("/merchant/validateFile")
-                        .file(file)
-                        .param("userId", "123"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mockResponse.toString()));
+       mockMvc.perform(multipart("/merchant/validateFile")
+                    .file(file)
+                    .part(new MockPart("userId", "123".getBytes()))
+                    .contentType(MediaType.MULTIPART_FORM_DATA))
+            .andExpect(status().isOk())
+            .andExpect(content().json(mockResponse.toString()));
     }
 }
