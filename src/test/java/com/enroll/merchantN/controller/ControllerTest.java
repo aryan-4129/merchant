@@ -52,7 +52,7 @@ class ControllerTest {
                        .contentType(MediaType.APPLICATION_JSON)
                        .content("{\"path\":\"somePath\",\"status\":\"someStatus\"}"))  // Sample JSON input
                .andExpect(status().isOk())  // Assert that the status is OK (200)
-               .andExpect(content().json(mockResponse));  // Assert that the response matches the mock response
+               .andExpect(content().json(mockResponse.toString()));  // Assert that the response matches the mock response
    }
 
    @Test
