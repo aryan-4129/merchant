@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileRequest {
+    private String path;
     private String status;
     private String message;
     private String fileId;
