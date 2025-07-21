@@ -2,7 +2,7 @@ package com.enroll.merchantN.controller;
 
 import com.enroll.merchantN.dto.FileRequest;
 import com.enroll.merchantN.helper.ValidateFile;
-import com.enroll.merchantN.service.Service;
+import com.enroll.merchantN.service.ServiceImpl;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class ControllerTest {
    private ValidateFile extract;
 
    @Mock
-   private Service service;
+   private ServiceImpl service;
 
    @InjectMocks
    private Controller controller;
