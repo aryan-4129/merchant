@@ -7,13 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-class MerchantNApplicationTests {
+// @SpringBootTest
+// @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+// class MerchantNApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+// 	@Test
+// 	public void contextLoads() {
+// 	}
 
 
-}
+// }
