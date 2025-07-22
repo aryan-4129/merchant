@@ -31,6 +31,15 @@ class ControllerTest {
     @MockBean
     private ServiceImpl serviceImpl;
 
+    @MockBean
+    private ValidateFile validateFile;
+
+    @MockBean
+    private FileDetailsRepo fileDetailsRepo;
+
+    @MockBean
+    private MerchantDetailsRepo merchantDetailsRepo;
+
     @Test
     void testValidateFile() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "col1,col2\nval1,val2".getBytes());
