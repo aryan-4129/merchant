@@ -28,6 +28,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.security.test.context.support.WithMockUser;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+
 
 
 
@@ -64,6 +66,7 @@ class ControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/merchant/validateFile")
                 .file(file)
                 .param("userId", "user123")
+                .with(jwt())
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().string(mockResponse.toString()));
