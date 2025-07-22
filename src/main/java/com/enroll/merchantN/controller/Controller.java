@@ -35,8 +35,8 @@ public class Controller {
 
 
     @PostMapping("/validateFile")
-    public String validateFile(@RequestPart("file") MultipartFile file,
-                                @RequestPart("userId") String userId) {
+    public String validateFile(@RequestParam("file") MultipartFile file,
+                                @RequestParam("userId") String userId) {
         JSONObject validateFileResponse = new JSONObject();
         String contentType=file.getContentType();
 //        if ("false".equalsIgnoreCase(validationRequired) || file == null || file.isEmpty()) {
