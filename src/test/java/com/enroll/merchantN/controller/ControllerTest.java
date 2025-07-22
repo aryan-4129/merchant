@@ -18,6 +18,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enroll.merchantN.helper.ValidateFile;
+import com.enroll.merchantN.entity.sqlMerchant.FileDetailsRepo;
+import com.enroll.merchantN.entity.sqlMerchant.MerchantDetailsRepo;
+
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
